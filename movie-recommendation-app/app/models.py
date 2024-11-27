@@ -1,11 +1,7 @@
+from app import db, bcrypt
 from flask_login import UserMixin
-from flask_bcrypt import Bcrypt
-from app import db
 
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -13,10 +9,10 @@ class User(db.Model):
     reviews = db.relationship('Review', backref='user', lazy=True)
 
     def set_password(self, password):
-        self.password = bcrypt.generate_password_hash(password.decode('utf-8'))
-    
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
     def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+        return bcrypt.check_password_hash(self.password, password)
 
 class Movie(db.Model):
     __tablename__ = 'movies'
