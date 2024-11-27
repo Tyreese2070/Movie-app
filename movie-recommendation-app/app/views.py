@@ -7,7 +7,7 @@ from app import app
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('homepage'))
 
     form = loginForm()
 
@@ -17,7 +17,7 @@ def login():
             login_user(user)
             flash('Login successful!', 'success')
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('homepage'))
         else:
             flash('Login failed. Check username and password.', 'danger')
     
@@ -31,7 +31,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/home')
+@app.route('/homepage')
 @login_required
-def home():
-    return '<p>homepage<p>'
+def homepage():
+    return render_template('homepage.html')
