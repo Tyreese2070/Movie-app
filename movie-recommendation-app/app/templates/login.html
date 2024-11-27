@@ -15,6 +15,9 @@
     <div class="form-group">
         {{ form.submit(class="btn btn-primary") }}
     </div>
+
+    <a href="{{ url_for('signup') }}" class="btn btn-secondary">Sign up</a>
+
 </form>
 
 {% with messages = get_flashed_messages(with_categories=true) %}

@@ -11,9 +11,10 @@
 <body>
     <div class="container">
         {% if current_user.is_authenticated %}
-        <!-- MovieApp title with link to homepage -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{{ url_for('homepage') }}">MovieApp</a>
+
+        <!-- Display title -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <a class="navbar-brand" href="{{ url_for('homepage') }}">Movie App</a>
 
             <!-- Navbar Toggle Button (Hamburger Icon) -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -30,10 +31,16 @@
                         <a class="nav-link" href="{{ url_for('homepage') }}">Home</a> <!-- Home button -->
                     </li>
 
-                    <!-- Logout button -->
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-danger" href="{{ url_for('logout') }}">Logout</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a> <!-- Dashboard button -->
+                    </li>
 
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('likes') }}">Liked Movies</a> <!-- Likes button -->
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('settings') }}">Settings</a> <!-- Settings button -->
                     </li>
                 </ul>
 
@@ -42,6 +49,13 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
+
+                <ul class="navbar-nav ml-auto">
+                    <!-- Logout button -->
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
             </div>
         </nav>
         {% endif %}
