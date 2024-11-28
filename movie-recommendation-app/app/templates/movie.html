@@ -1,5 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h1>{{ movie.title }}</h1>
+<p>Genre: {{ movie.genre }}</p>
+<p>Release Date: {{ movie.release_date }}</p>
 
+<!-- Check if the movie is liked by the current user -->
+{% if current_user.id in [like.user_id for like in movie.likes] %}
+    <p>You have liked this movie!</p>
+{% else %}
+    <form action="{{ url_for('like_movie', movie_id=movie.id) }}" method="post">
+        <button type="submit">Like</button>
+    </form>
+{% endif %}
+
+
+
+<h3>Leave a Review</h3>
+<form action="{{ url_for('review_movie', movie_id=movie.id) }}" method="post">
+    <label for="rating">Rating (1-10):</label>
+    <input type="number" id="rating" name="rating" min="1" max="10" required>
+
+    <label for="review_text">Review:</label>
+    <textarea id="review_text" name="review_text" rows="4"></textarea>
+
+    <button type="submit">Submit Review</button>
+</form>
+
+<h3>Reviews</h3>
+{% for review in movie.reviews %}
+    <p><strong>{{ review.user.username }}:</strong> Rated {{ review.rating }}/10</p>
+    <p>{{ review.review_text }}</p>
+{% endfor %}
 {% endblock %}
