@@ -6,6 +6,7 @@ import requests
 from app import app, db
 from flask_bcrypt import Bcrypt
 from datetime import datetime
+from flask_restful import Resource, Api
 
 bcrypt = Bcrypt(app)
 
@@ -17,9 +18,6 @@ def signup():
     - GET: Displays the signup form.
     - POST: Validates the form and creates a new user in the database.
     
-    Parameters:
-        None
-
     Returns:
         - Validation message (successful or unsuccessful)
     """
@@ -110,7 +108,6 @@ def homepage():
     url = f'{URL}/movie/popular?api_key={KEY}'
     response = requests.get(url)
     data = response.json()
-
     movies = data.get('results', [])
     for movie_data in movies:
         existing_movie = Movie.query.filter_by(id=movie_data['id']).first()
@@ -121,37 +118,32 @@ def homepage():
                 id=movie_data['id'],
                 title=movie_data['title'],
                 genre=', '.join(str(genre_id) for genre_id in movie_data.get('genre_ids', [])),
-                release_date=release_date
+                release_date=release_date,
+                poster_path=movie_data.get('poster_path'),
+                overview=movie_data['overview']
             )
             db.session.add(new_movie)
     db.session.commit()
 
     return render_template('homepage.html', movies=movies)
 
-@app.route('/like_movie/<int:movie_id>', methods=['POST'])
+@app.route('/like_movie', methods=['POST'])
 @login_required
-def like_movie(movie_id):
-    """
-    Handles liking a movie for the user.
+def like_movie():
+    data = request.get_json()
+    movie_id = data.get("movie_id")
 
-    Parameters:
-        - movie_id: ID of the movie to be liked.
-    
-    Returns:
-        - Redirect to the homepage with updated like status.
-    """
     movie = Movie.query.get_or_404(movie_id)
-    
+
     existing_like = Like.query.filter_by(user_id=current_user.id, movie_id=movie.id).first()
     if not existing_like:
         like = Like(user_id=current_user.id, movie_id=movie.id)
         db.session.add(like)
         db.session.commit()
-        flash(f'You liked {movie.title}!', 'success')
-    else:
-        flash(f'You already liked {movie.title}.', 'info')
-    
-    return redirect(url_for('homepage'))
+        print("liked movie")
+
+    return jsonify({"status": "success", "message": f"You liked {movie.title}"})
+
 
 
 @app.route('/likes')
@@ -191,6 +183,9 @@ def movie(movie_id):
     # Query the movie from the database using the movie_id
     movie = Movie.query.get_or_404(movie_id)
 
+    # Query for the movies liked by the current user
+    liked_movies = {like.movie_id for like in current_user.likes}
+
     # Forms for liking and reviewing
     like_form = likeForm()
     review_form = reviewForm()
@@ -218,5 +213,47 @@ def movie(movie_id):
         'movie.html',
         movie=movie,
         like_form=like_form,
-        review_form=review_form
+        review_form=review_form,
+        liked_movies=liked_movies
     )
+
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    data = request.get_json()
+    movie_id = data.get("movie_id")
+    rating = data.get("rating")
+    review_text = data.get("review_text")
+
+    # Validate the movie
+    movie = Movie.query.get_or_404(movie_id)
+
+    # Save the review
+    new_review = Review(
+        user_id=current_user.id,
+        movie_id=movie.id,
+        rating=rating,
+        review_text=review_text,
+    )
+    db.session.add(new_review)
+    db.session.commit()
+
+    return jsonify({"status": "success", "message": "Review submitted successfully"})
+
+@app.route('/get_reviews/<int:movie_id>', methods=['GET'])
+@login_required
+def get_reviews(movie_id):
+    """
+    Fetches reviews for a specific movie.
+    """
+    movie = Movie.query.get_or_404(movie_id)
+    reviews = Review.query.filter_by(movie_id=movie.id).all()
+    review_list = [
+        {
+            "username": review.user.username,  # Assuming the Review model has a relationship with User
+            "rating": review.rating,
+            "review_text": review.review_text,
+        }
+        for review in reviews
+    ]
+    return jsonify(review_list)

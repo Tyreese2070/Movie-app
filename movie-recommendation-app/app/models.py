@@ -21,6 +21,8 @@ class Movie(db.Model):
     genre = db.Column(db.String(100), nullable=False)
     release_date = db.Column(db.Date, nullable=False)
     reviews = db.relationship('Review', backref='movie', lazy=True)
+    poster_path = db.Column(db.String(300))
+    overview = db.Column(db.Text)
 
 class Review(db.Model):
     __tablename__ = 'reviews'
