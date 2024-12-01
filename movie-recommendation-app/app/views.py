@@ -158,16 +158,54 @@ def likes():
     
     return render_template('likes.html')
 
+@app.route('/remove_like', methods=['POST'])
+@login_required
+def remove_like():
+    data = request.get_json()
+    movie_id = data.get("movie_id")
+
+    # Fetch the movie from the database
+    movie = Movie.query.get_or_404(movie_id)
+
+    # Check if the user has liked the movie
+    existing_like = Like.query.filter_by(user_id=current_user.id, movie_id=movie.id).first()
+
+    if existing_like:
+        # Remove the like from the database
+        db.session.delete(existing_like)
+        db.session.commit()
+        return jsonify({"status": "success", "message": f"{movie.title} removed from liked movies"})
+    else:
+        return jsonify({"status": "error", "message": "Movie not found in your liked list"})
+
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
     """
-    Displays users information.
-
-    Returns:
-        - 
+    Displays the user's dashboard with their username, liked movies, and AJAX functionality.
     """
-    return render_template('dashboard.html')
+    # Fetch the logged-in user
+    user = current_user
+
+    # Get the movies the user has liked
+    liked_movies = (
+        db.session.query(Movie)
+        .join(Like, Movie.id == Like.movie_id)
+        .filter(Like.user_id == user.id)
+        .order_by(Movie.release_date.desc())  # Order by most recent first
+        .all()
+    )
+
+    # Pass user and liked movies to the template
+    return render_template(
+        'dashboard.html',
+        username=user.username,
+        liked_movies=liked_movies,  # Send liked movies to the template
+    )
+
+
+
 
 @app.route('/settings')
 @login_required
