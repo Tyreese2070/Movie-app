@@ -145,19 +145,6 @@ def like_movie():
     return jsonify({"status": "success", "message": f"You liked {movie.title}"})
 
 
-
-@app.route('/likes')
-@login_required
-def likes():
-    """
-    Displays users liked movies.
-
-    Returns:
-        - 
-    """
-    
-    return render_template('likes.html')
-
 @app.route('/remove_like', methods=['POST'])
 @login_required
 def remove_like():
@@ -207,10 +194,46 @@ def dashboard():
 
 
 
-@app.route('/settings')
+@app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    return render_template('settings.html')
+    """
+    Handles user settings updates (username and password).
+
+    - GET: Displays the settings form.
+    - POST: Validates the form and updates the user's information in the database.
+
+    Returns:
+        - A success or failure message based on the form validation and submission.
+    """
+    # Initialize form with FlaskForm structure
+    form = signupForm()
+
+    if form.validate_on_submit():
+        # Fetch the current user
+        user = current_user
+
+        # Handle username update
+        if form.username.data and form.username.data != user.username:
+            existing_user = User.query.filter_by(username=form.username.data).first()
+            if existing_user:
+                flash('Username already exists. Please choose a different one.', 'danger')
+                return redirect(url_for('settings'))
+            else:
+                user.username = form.username.data
+                db.session.commit()
+                flash('Username updated successfully!', 'success')
+
+        # Handle password update
+        if form.password.data:
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            user.password = hashed_password
+            db.session.commit()
+            flash('Password updated successfully!', 'success')
+
+    return render_template('settings.html', form=form)
+
+
 
 @app.route('/movie/<int:movie_id>')
 @login_required
