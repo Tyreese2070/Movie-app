@@ -48,8 +48,8 @@ $(document).ready(function () {
             }),
             success: function (response) {
                 alert(response.message);
-                fetchReviews(movieId); // Refresh reviews after submission
-                $("#review-form")[0].reset(); // Clear the form
+                fetchReviews(movieId);
+                $("#review-form")[0].reset();
             },
             error: function () {
                 alert("Failed to submit review. Please try again.");
