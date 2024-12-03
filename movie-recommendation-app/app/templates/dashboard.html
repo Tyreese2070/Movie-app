@@ -15,7 +15,7 @@
         {% for movie in liked_movies %}
             <li style="display: flex; align-items: center; margin-bottom: 20px;">
                 <!-- Movie Poster -->
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="Movie Poster" style="width: 100px; margin-right: 20px;">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{movie.title}} Poster" style="width: 100px; margin-right: 20px;">
 
                 <!-- Movie Title and Info -->
                 <div>
@@ -25,7 +25,7 @@
                 </div>
 
                 <!-- Button to go to movie detail page -->
-                <a href="{{ url_for('movie', movie_id=movie.id) }}" class="btn btn-info" style="margin-left: auto;">View Details</a>
+                <a href="{{ url_for('movie', movie_id=movie.id) }}" class="btn btn-secondary" style="margin-left: auto;">View Details</a>
 
                 <!-- AJAX Button to Remove from Likes -->
                 <button class="btn btn-danger remove-like-button" data-movie-id="{{ movie.id }}" style="margin-left: 10px;">Remove from Likes</button>

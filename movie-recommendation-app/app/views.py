@@ -95,7 +95,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-# Use of TMDb API to get movie data and some filtering, found at: https://developer.themoviedb.org/docs/getting-started
+# Use of TMDb API to get movie data found at: https://developer.themoviedb.org/docs/getting-started
 KEY = 'REMOVED'
 URL = 'https://api.themoviedb.org/3'
 
@@ -105,10 +105,14 @@ def homepage():
     """
     Displays movies for the user to see.
     """
+    
+    # Getting the data from the API site
     url = f'{URL}/movie/popular?api_key={KEY}'
     response = requests.get(url)
     data = response.json()
     movies = data.get('results', [])
+    
+    # Going through each movie and storing the relevant data
     for movie_data in movies:
         existing_movie = Movie.query.filter_by(id=movie_data['id']).first()
         if not existing_movie:
@@ -190,8 +194,6 @@ def dashboard():
         username=user.username,
         liked_movies=liked_movies,  # Send liked movies to the template
     )
-
-
 
 
 @app.route('/settings', methods=['GET', 'POST'])

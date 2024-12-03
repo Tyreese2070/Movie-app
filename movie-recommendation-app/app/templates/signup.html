@@ -18,14 +18,14 @@
 </form>
 
 <a href="{{ url_for('login') }}" class="btn btn-secondary">Back</a>
-
+<br>
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 <ul class="flashes">
-    {% for category, message in messages %}
+    {% set category, message = messages[-1] %}
     <li class="alert alert-{{ category }}">{{ message }}</li>
-    {% endfor %}
 </ul>
 {% endif %}
 {% endwith %}
+
 {% endblock %}
