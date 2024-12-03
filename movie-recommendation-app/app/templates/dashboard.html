@@ -6,33 +6,37 @@
     <script src="{{ url_for('static', filename='remove_like.js') }}"></script>
 </head>
 
-<h1>Welcome, {{ username }}!</h1>
+<div class="container">
+    <h1 class="my-4">Welcome, {{ username }}!</h1>
 
-<h2>Your Liked Movies</h2>
+    <h2>Your Liked Movies</h2>
 
-{% if liked_movies %}
-    <ul>
+    {% if liked_movies %}
+    <div class="row">
         <!-- Displaying movie cards -->
         {% for movie in liked_movies %}
-            <li style="display: flex; align-items: center; margin-bottom: 20px;">
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{movie.title}} Poster" style="width: 100px; margin-right: 20px;">
-                <div>
-                    <h3>{{ movie.title }}</h3>
-                    <p>Release Date: {{ movie.release_date }}</p>
-                    <p>{{ movie.overview[:150] }}...</p>
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }} Poster">
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.title }}</h5>
+                    <p class="card-text">Release Date: {{ movie.release_date }}</p>
+                    <p class="card-text text-truncate">{{ movie.overview }}</p>
                 </div>
-
-                <!-- View details button -->
-                <a href="{{ url_for('movie', movie_id=movie.id) }}" class="btn btn-secondary" style="margin-left: auto;">View Details</a>
-
-                <!-- Remove like button -->
-                <button class="btn btn-danger remove-like-button" data-movie-id="{{ movie.id }}" style="margin-left: 10px;">Remove from Likes</button>
-            </li>
-            <hr>
+                <div class="card-footer d-flex justify-content-between">
+                    <!-- View details button -->
+                    <a href="{{ url_for('movie', movie_id=movie.id) }}" class="btn btn-secondary btn-sm">View Details</a>
+                    
+                    <!-- Remove like button -->
+                    <button class="btn btn-danger btn-sm remove-like-button" data-movie-id="{{ movie.id }}">Remove from Likes</button>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-{% else %}
+    </div>
+    {% else %}
     <p>You haven't liked any movies yet.</p>
-{% endif %}
+    {% endif %}
+</div>
 
 {% endblock %}
