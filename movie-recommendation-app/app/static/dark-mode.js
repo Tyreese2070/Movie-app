@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Check if the toggle button exists before trying to manipulate it
+    // Check if the toggle button exists
     var toggleButton = document.getElementById('toggle-dark-mode');
 
-    // Check if dark mode is already set in localStorage
+    // Check current mode in local storage
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
         if (toggleButton) {
@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Only add event listener if the button is present
+    // Only check for click if button is on the page
     if (toggleButton) {
         toggleButton.addEventListener('click', function () {
             // Toggle dark mode class
             document.body.classList.toggle('dark-mode');
 
-            // Update localStorage based on the new mode
+            // Update local storage
             if (document.body.classList.contains('dark-mode')) {
                 localStorage.setItem('darkMode', 'enabled');
                 toggleButton.textContent = 'Light Mode';

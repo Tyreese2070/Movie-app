@@ -8,6 +8,7 @@
     <script src="{{ url_for('static', filename='review.js') }}"></script>
 </head>
 
+<!-- Movie information -->
 <div style="overflow: hidden;">
     <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{movie.title}} poster" style="float: left; margin-right:20px; width: 300px;">
     <h1>{{ movie.title }}</h1>
@@ -35,6 +36,7 @@
         <textarea id="review_text" name="review_text" rows="4"></textarea>
     </div>
 
+    <!-- Submit review button -->
     <button type="submit" class="btn btn-secondary" style="align-self: flex-start;">Submit Review</button>
 </form>
 

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // Fetch reviews when the page loads
+    // Get reviews when the page loads
     const movieId = $('#review-form').data('movie-id');
     fetchReviews(movieId);
 
@@ -9,7 +9,7 @@ $(document).ready(function () {
             method: "GET",
             success: function (reviews) {
                 const reviewsSection = $("#reviews-section");
-                reviewsSection.empty(); // Clear existing reviews
+                reviewsSection.empty();
 
                 if (reviews.length === 0) {
                     reviewsSection.append("<p>No reviews yet. Be the first to leave one!</p>");
