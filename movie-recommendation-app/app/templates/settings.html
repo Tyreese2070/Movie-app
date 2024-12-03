@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="container mt-5">
+    <!-- Settings page -->
     <h1>Settings</h1>
     <p>Update your username or password below:</p>
 
     <form method="POST" action="{{ url_for('settings') }}">
-        <!-- CSRF Token -->
         {{ form.hidden_tag() }}
 
         <!-- Update Username -->
@@ -20,10 +20,23 @@
             <label for="password">New Password:</label>
             {{ form.password(class="form-control", placeholder="Enter new password", autocomplete="new-password") }}
         </div>
-
+        <!-- Submit username / password change -->
         <button type="submit" class="btn btn-warning">Update</button>
     </form>
     <hr>
+    <!-- Dark mode button -->
     <button id="toggle-dark-mode" class="btn btn-secondary ml-auto">Toggle Dark Mode</button>
 </div>
+
+<!-- Flash alerts -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul class="flashes">
+    {% set category, message = messages[-1] %}
+    <li class="alert alert-{{ category }}">{{ message }}</li>
+</ul>
+{% endif %}
+{% endwith %}
+
+
 {% endblock %}

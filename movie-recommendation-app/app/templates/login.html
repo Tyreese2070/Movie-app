@@ -4,22 +4,27 @@
 <h2>Login</h2>
 <form method="POST" action="/">
     {{ form.hidden_tag() }}
+    <!-- Username input -->
     <div class="form-group">
         {{ form.username.label }}
         {{ form.username(class="form-control") }}
     </div>
+    <!-- Password input -->
     <div class="form-group">
         {{ form.password.label }}
         {{ form.password(class="form-control") }}
     </div>
+    <!-- Login button-->
     <div class="form-group">
         {{ form.submit(class="btn btn-primary") }}
     </div>
 
+    <!-- Login button -->
     <a href="{{ url_for('signup') }}" class="btn btn-secondary">Sign up</a>
 
 </form>
 
+<!-- Flash alerts -->
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 <ul class="flashes">

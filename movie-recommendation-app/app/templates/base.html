@@ -13,12 +13,10 @@
 <body>
     <div class="container">
         {% if current_user.is_authenticated %}
-
-        <!-- Display title -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <a class="navbar-brand" href="{{ url_for('homepage') }}">Movie App</a>
 
-            <!-- Navbar Toggle Button (Hamburger Icon) -->
+            <!-- Navbar Toggle Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -28,26 +26,34 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
 
-                    <!-- Navbar Links (Home & Logout) -->
+                    <!-- Home button -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('homepage') }}">Home</a> <!-- Home button -->
+                        <a class="nav-link" href="{{ url_for('homepage') }}">Home</a>
                     </li>
-
+                    <!-- Dashboard button -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a> <!-- Dashboard button -->
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a> 
                     </li>
-
+                    <!-- Settings button -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('settings') }}">Settings</a> <!-- Settings button -->
+                        <a class="nav-link" href="{{ url_for('settings') }}">Settings</a> 
                     </li>
                 </ul>
 
                 <!-- Search Form -->
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-lg-0" action="{{ url_for('search') }}" method="get">
                     <label for="search-input" class="sr-only">Search</label>
-                    <input class="form-control mr-sm-2" type="search" id="search-input" name="search" placeholder="Search" aria-label="Search">                    
+                    <input 
+                        class="form-control mr-sm-2" 
+                        type="search" 
+                        id="search-input" 
+                        name="search" 
+                        placeholder="Search for movies" 
+                        aria-label="Search"
+                    >
                     <button class="btn btn-outline-success my-2 my-sm-0 btn-search" type="submit">Search</button>
                 </form>
+                
 
                 <ul class="navbar-nav ml-auto">
                     <!-- Logout button -->

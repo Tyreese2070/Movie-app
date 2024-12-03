@@ -6,27 +6,23 @@ body {
 
 .navbar {
     background-color: #343a40;
-    /* Navbar background for light mode */
     color: #ffffff;
 }
 
 .card {
     background-color: #ffffff;
-    /* Light card background */
     color: #000000;
     border: 1px solid #dddddd;
 }
 
 .card .btn {
     background-color: #007bff;
-    /* Light blue button for light mode */
     color: white;
     border: none;
 }
 
 .card .btn:hover {
     background-color: #0056b3;
-    /* Darker blue on hover */
 }
 
 /* Dark Mode */
@@ -37,43 +33,34 @@ body.dark-mode {
 
 body.dark-mode .navbar {
     background-color: #1c1c1c;
-    /* Dark navbar */
     color: #ffffff;
 }
 
-/* Dark Mode Styles for Cards */
 body.dark-mode .card {
     background-color: #333;
-    /* Dark gray for card background */
     color: white;
-    /* White text for contrast */
     border: 1px solid #444;
-    /* Subtle border for contrast */
 }
 
 body.dark-mode .card .btn {
     background-color: #555;
-    /* Darker button for dark mode */
     color: white;
     border: none;
 }
 
 body.dark-mode .card .btn:hover {
     background-color: #777;
-    /* Slightly lighter hover */
 }
 
 /* Light Mode */
 hr {
     border-color: #dddddd;
-    /* Light gray for light mode */
     border-width: 1px;
 }
 
 /* Dark Mode */
 body.dark-mode hr {
     border-color: #444444;
-    /* Darker gray for dark mode */
     border-width: 1px;
 }
 

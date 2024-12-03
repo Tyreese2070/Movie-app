@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Popular Movies</h1>
-<div id="movies-container" class="row">
-    <!-- Movie cards -->
-    {% for movie in movies %}
+<h1>Search Results for "{{ query }}"</h1>
+<div class="row">
+    <!-- Displaying movie card -->
+    {% for movie in results %}
     <div class="col-md-4">
         <div class="card mb-4" style="width: 18rem;">
             <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }} poster">
@@ -12,14 +12,10 @@
                 <h2 class="card-title">{{ movie['title'] }}</h2>
                 <p class="card-text">{{ movie['overview'][:100] }}...</p>
                 <!-- View details button -->
-                <a href="{{ url_for('movie', movie_id=movie['id']) }}" class="btn bg-secondary">View Details</a>
+                <a href="{{ url_for('movie', movie_id=movie['id']) }}" class="btn btn-secondary">View Details</a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
-<!-- Load more movies button -->
-<button id="load-more-button" class="btn btn-secondary mt-4">Load More</button>
-
-<script src="{{ url_for('static', filename='load_more.js') }}"></script>
 {% endblock %}
