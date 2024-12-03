@@ -76,3 +76,12 @@ body.dark-mode hr {
     /* Darker gray for dark mode */
     border-width: 1px;
 }
+
+.btn-search {
+    color: #ffffff;
+
+}
+
+.btn-logout {
+    color: #000000 !important;
+}

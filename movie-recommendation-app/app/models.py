@@ -34,9 +34,7 @@ class Review(db.Model):
 
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # ForeignKey for User
-    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)  # ForeignKey for Movie
-    
-    # Define relationships explicitly
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Foreign key
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)  # Foreign key
     user = db.relationship('User', backref=db.backref('likes', lazy=True))
     movie = db.relationship('Movie', backref=db.backref('liked_by', lazy=True))

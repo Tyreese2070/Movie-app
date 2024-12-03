@@ -20,4 +20,14 @@
 
 </form>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul class="flashes">
+    {% set category, message = messages[-1] %}
+    <li class="alert alert-{{ category }}">{{ message }}</li>
+</ul>
+{% endif %}
+{% endwith %}
+
+
 {% endblock %}
