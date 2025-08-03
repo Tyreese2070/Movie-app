@@ -7,6 +7,10 @@ from app import app, db
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 from flask_restful import Resource, Api
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 bcrypt = Bcrypt(app)
 
@@ -81,7 +85,7 @@ def logout():
 
 
 # Use of TMDb API to get movie data found at: https://developer.themoviedb.org/docs/getting-started
-KEY = 'REMOVED'
+KEY = os.getenv("KEY")
 URL = 'https://api.themoviedb.org/3'
 
 @app.route('/homepage')
