@@ -1,6 +1,8 @@
 # How to run
+```
 source flask/bin/activate
 python run.py
+```
 
 # Website link:
 https://tyreese2070.pythonanywhere.com/  <br>
